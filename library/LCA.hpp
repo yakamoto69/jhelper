@@ -7,16 +7,18 @@ public:
   VI depth;
   int K;
 
-  LCA(V<VI> &g, int K, int rt = 0): N((int)g.size()), anc(K, VI(N)), depth(N), K(K) {
+  LCA(V<VI> &g, int K, VI& routes): N((int)g.size()), anc(K, VI(N)), depth(N), K(K) {
     function<void(int, int)> initParent = [&](int v, int p) {
       anc[0][v] = p;
-      depth[v] = v == rt ? 0 : depth[p] + 1;
+      depth[v] = v == p ? 0 : depth[p] + 1;
       for (const auto &u : g[v]) {
         if (p != u) initParent(u, v);
       }
     };
 
-    initParent(rt, rt); // rtの親はrtってことにすると処理が楽になる
+    for (const auto &rt : routes) {
+      initParent(rt, rt); // rtの親はrtってことにすると処理が楽になる
+    }
     for (int k = 1; k < K; ++k) {
       for (int i = 0; i < N; ++i) {
         anc[k][i] = anc[k - 1][anc[k - 1][i]];
