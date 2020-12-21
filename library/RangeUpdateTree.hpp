@@ -8,13 +8,15 @@ private:
     return k == x ? k : k << 1;
   }
 
+using F = function<T(T, T)>;
+
 public:
   int N;
   T zero;
-  function<T(T, T)> f;
+  F f;
   V<T> dat;
 
-  RangeUpdateTree(int n, T zero, function<T(T, T)> f):
+  RangeUpdateTree(int n, T zero, F f):
   N(calcN(n)), zero(zero), f(f), dat(2 * this->N, zero) {}
 
   /**

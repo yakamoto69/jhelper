@@ -3,11 +3,11 @@
 class LCA {
 public:
   int N;
-  V<VI> anc;
-  VI depth;
+  V<Vi> anc;
+  Vi depth;
   int K;
 
-  LCA(V<VI> &g, int K, VI& routes): N((int)g.size()), anc(K, VI(N)), depth(N), K(K) {
+  LCA(int N, V<Vi> &g, int K, Vi& routes): N(N), anc(K, Vi(N)), depth(N), K(K) {
     function<void(int, int)> initParent = [&](int v, int p) {
       anc[0][v] = p;
       depth[v] = v == p ? 0 : depth[p] + 1;

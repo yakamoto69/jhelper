@@ -2,7 +2,7 @@
 
 class PrimeFactorization {
 public:
-  VI prime, factor;
+  Vi prime, factor;
 
   PrimeFactorization(int MAX): factor(MAX + 1) {
     for (int i = 2; i <= MAX; ++i) {

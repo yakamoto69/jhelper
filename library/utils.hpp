@@ -1,12 +1,14 @@
 #include "common.hpp"
 
-ll sum(VI &A) {
+// あえて型固定。Viが渡ってきてもllで返すのでoverflowしない
+template <typename T>
+inline ll sumOf(V<T> const &A) {
   ll s = 0;
   for (int i : A) s += i;
   return s;
 }
 
-V<ll> cum_sum(VI &A) {
+inline V<ll> cum_sum(Vi const &A) {
   V<ll> res(A.size() + 1);
   res[0] = 0;
   for (int i = 0; i < A.size(); ++i) {
@@ -15,32 +17,40 @@ V<ll> cum_sum(VI &A) {
   return res;
 }
 
-template <class T>
-T max(V<T> &A) {
-  return *std::max_element(A.begin(), A.end());
+template <typename T>
+inline T maxOf(V<T> const &A) {
+  return *std::max_element(all(A));
 }
 
-template <class T>
-T min(V<T> &A) {
-  return *std::min_element(A.begin(), A.end());
+template <typename T>
+inline T minOf(V<T> const &A) {
+  return *std::min_element(all(A));
 }
 
-void remove(VI &A, int x) {
-  A.erase(std::remove(A.begin(), A.end(), x), A.end());
+inline void remove(Vi &A, int x) {
+  A.erase(std::remove(all(A), x), A.end());
 }
 
-VI distinct(VI &A) {
-  VI res(A);
-  sort(res.begin(), res.end());
-  res.erase(unique(res.begin(), res.end()), res.end());
-  return res;
+template<typename T>
+inline void sortAndUnique(V<T> &A) {
+  sort(all(A));
+  A.erase(unique(all(A)), A.end());
+}
+
+template<typename T>
+inline int lbi(V<T> const &A, T const &x) {
+  return lb(all(A), x) - A.begin();
 }
 
 /**
  * multisetのキーをiterateする方法
  */
-void unique(std::multiset<int> A, const function<void(int)>& f) {
+void unique(std::multiset<int> const &A, const function<void(int)>& f) {
   for (auto it = A.begin(); it != A.end(); it = std::upper_bound(it, A.end(), *it)) {
     f(*it);
   }
+}
+
+inline bool within(int a, int until, int from = 0) {
+  return from <= a && a < until;
 }

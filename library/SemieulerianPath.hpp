@@ -3,14 +3,14 @@
 class SemieulerianPath {
 private:
   int n;
-  V<V<PI>> g;
+  V<V<Pii>> g;
   V<bool> used;
-  VI ix;
+  Vi ix;
 
 public:
-  VI path;
+  Vi path;
 
-  SemieulerianPath(int n, VI &from, VI &to): n(n), g(n), used(from.size()), ix(n) {
+  SemieulerianPath(int n, Vi &from, Vi &to): n(n), g(n), used(from.size()), ix(n) {
     for (int i = 0; i < from.size(); ++i) {
       int v = from[i], u = to[i];
       g[v].emplace_back(u, i);

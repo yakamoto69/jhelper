@@ -20,8 +20,22 @@ int gcd(int a, int b) {
   return gcd(b, a % b);
 }
 
-VI divisors(int x) {
-  VI D, back;
+V<Pii> factorize(int x) {
+  V<Pii> res;
+  for (int f = 2; f*f <= x; ++f) {
+    int cnt = 0;
+    while (x % f == 0) {
+      cnt++;
+      x /= f;
+    }
+    if (cnt > 0) res.pb({f, cnt});
+  }
+  if (x > 1) res.pb({x, 1});
+  return res;
+}
+
+Vi divisors(int x) {
+  Vi D, back;
   int rt = (int)sqrt(x);
   for (int d = 1; d <= rt; ++d) {
     if (x % d == 0) {
@@ -34,7 +48,7 @@ VI divisors(int x) {
 }
 
 ll pow_mod(ll x, int k, ll m) {
-  if (k == 0) return 0;
+  if (k == 0) return 1;
   else if (k == 1) return x;
   else {
     ll a = pow_mod(x * x % m, k / 2, m);

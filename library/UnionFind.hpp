@@ -2,8 +2,8 @@
 
 class UnionFind {
 public:
-  VI p;
-  VI rank;
+  Vi p;
+  Vi rank;
 
   UnionFind(int n): p(n), rank(n, 1) {
     for (int i = 0; i < n; ++i) {
@@ -32,7 +32,11 @@ public:
     return find(x) == find(y);
   }
 
-  int count_connected(int x) {
+  bool isRoot(int x) {
+    return find(x) == x;
+  }
+
+  int countConnected(int x) {
     return rank[find(x)];
   }
 };

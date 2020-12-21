@@ -3,7 +3,7 @@
 class KMP {
 private:
   string word;
-  VI kmp;
+  Vi kmp;
 
 public:
   KMP(const string &w) {

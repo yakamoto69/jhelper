@@ -1,30 +1,39 @@
 #include "common.hpp"
+#include "MInt.hpp"
 
-V<V<ll>> mat_mul(V<V<ll>> a, V<V<ll>> b, int m) {
+template <unsigned int MOD>
+V<V<MInt<MOD>>> matMul(V<V<MInt<MOD>>> const &a, V<V<MInt<MOD>>> const &b) {
   assert(a[0].size() == b.size());
-  ll th = (ll)7e18;
-  int r = (int)a.size();
-  int c = (int)b[0].size();
-  int len = (int)a[0].size();
-  V<V<ll>> res(a.size(), V<ll>(b[0].size()));
+  auto r = a.size();
+  auto c = b[0].size();
+  auto len = a[0].size();
+  auto res = dim2(r, c, MInt<MOD>(0));
   for (int i = 0; i < r; ++i) {
     for (int j = 0; j < c; ++j) {
-      ll v = 0ll;
       for (int k = 0; k < len; ++k) {
-        v += a[i][k] * b[k][j];
-        if (v > th) v %= m;
+        res[i][j] += a[i][k] * b[k][j];
       }
-      res[i][j] = v >= m ? v % m : v;
     }
   }
   return res;
 }
 
-V<V<ll>> mat_pow(V<V<ll>> a, ll n, int m) {
+template <unsigned int MOD>
+V<V<MInt<MOD>>> I(int n) {
+  auto res = dim2(n, n, MInt<MOD>(0));
+  for (int i = 0; i < n; ++i) {
+    res[i][i] = 1;
+  }
+  return res;
+}
+
+template <unsigned int MOD>
+V<V<MInt<MOD>>> matPow(V<V<MInt<MOD>>> const &a, ll n) {
+  if (n == 0) return I<MOD>(a.size());
   if (n == 1) return a;
-  V<V<ll>> res = mat_pow(mat_mul(a, a, m), n / 2, m);
+  auto res = matPow(matMul(a, a), n / 2);
   if (n % 2 == 1)
-    return mat_mul(res, a, m);
+    return matMul(res, a);
   else
     return res;
 }

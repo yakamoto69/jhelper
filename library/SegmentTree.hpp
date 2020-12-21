@@ -8,18 +8,24 @@ private:
     return k == x ? k : k << 1;
   }
 
+  using F = function<T(T&, T&)>;
+
 public:
   int N;
   T zero;
-  function<T(T, T)> f;
+  F f;
   V<T> dat;
 
 //  inline T f(T a, T b) {
 //    return min(a, b);
 //  }
 
-  SegmentTree(int n, T zero, function<T(T, T)> f):
-    N(calcN(n)), zero(zero), f(f), dat(2 * this->N, zero) {}
+  SegmentTree(int n, T zero, F f):
+    N(calcN(n)), zero(zero), f(f), dat(2 * this->N) {
+    for (auto &i : dat) {
+      i = zero;
+    }
+  }
 
   void update(int i, T a) {
     int ix = i + N;
@@ -35,7 +41,7 @@ public:
    * [a, b)
    */
   T query(int a, int b) {
-    T res = zero;
+    auto res = zero;
     int l = a + N, r = b - 1 + N;
     while(l <= r) {
       if ((l&1)) res = f(res, dat[l]);
