@@ -8,7 +8,7 @@ public:
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    in >> n;
+    int N;
+    in >> N;
   }
 };
